@@ -122,12 +122,22 @@ class GlfwContext(OpenGLContext):
 
 
 class OffscreenOpenGLContext():
-
     def __init__(self, device_id):
         self.device_id = device_id
         res = initOpenGL(device_id)
         if res != 1:
             raise RuntimeError("Failed to initialize OpenGL")
+        for i in range(8):
+            try:
+                self.device_id = i
+                res = initOpenGL(i)
+                print(res, i)
+                if res != 1:
+                    raise RuntimeError("Failed to initialize OpenGL")
+                else:
+                    break
+            except:
+                pass
 
     def close(self):
         # TODO: properly close OpenGL in our contexts
